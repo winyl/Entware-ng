@@ -17,7 +17,7 @@ PKG_BUILD_DEPENDS:=heimdal/host
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://www.h5l.org/dist/src/
 PKG_MD5SUM:=30b379e3de12f332fbd201131f02ffca
-#PKG_FIXUP:=autoreconf
+PKG_FIXUP:=autoreconf
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk

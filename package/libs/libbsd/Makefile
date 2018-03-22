@@ -12,6 +12,7 @@ PKG_LICENSE:=BSD-4-Clause
 PKG_LICENSE_FILES:=COPYING
 
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/host-build.mk
 
 PKG_INSTALL:=1
 
@@ -24,6 +25,22 @@ endef
 
 define Package/libbsd/description
  This library provides useful functions commonly found on BSD systems, and lacking on others like GNU systems, thus making it easier to port projects with strong BSD origins, without needing to embed the same code over and over again on each project.
+endef
+
+define Host/Prepare
+	mkdir -p $(HOST_BUILD_DIR)
+endef
+
+define Host/Compile
+
+endef
+
+define Host/Install
+	$(INSTALL_DIR) $(STAGING_DIR_HOSTPKG)/include
+	$(INSTALL_DATA) ./usr/include/libbsd.h $(STAGING_DIR_HOSTPKG)/include/
+
+	$(INSTALL_DIR) $(STAGING_DIR_HOSTPKG)/lib
+	$(INSTALL_DATA) ./lib/libbsd.so* $(STAGING_DIR_HOSTPKG)/lib
 endef
 
 define Build/InstallDev
@@ -52,6 +69,6 @@ define Package/libbsd/install
 
 	( cd $(1)/lib ; $(LN) libbsd.so.$(PKG_VERSION) libbsd.so )
 endef
-
+$(eval $(call HostBuild))
 $(eval $(call BuildPackage,libbsd))
 

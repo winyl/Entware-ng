@@ -95,7 +95,8 @@ CONFIGURE_ARGS += \
 	--with-pkg-config-libdir=/opt/lib/pkgconfig \
 	--enable-widec \
 	--with-build-cppflags=-D_GNU_SOURCE \
-	--disable-stripping
+	--disable-stripping \
+	CPPFLAGS="-P"
 
 HOST_CONFIGURE_ARGS += \
 	--without-cxx \
@@ -106,7 +107,8 @@ HOST_CONFIGURE_ARGS += \
 	--without-profile \
 	--without-tests \
 	--without-curses-h \
-	--disable-stripping
+	--disable-stripping \
+	CPPFLAGS="-P"
 
 
 ifeq ($(HOST_OS),FreeBSD)

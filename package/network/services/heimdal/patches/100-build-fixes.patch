@@ -1,6 +1,6 @@
 --- a/kcm/cache.c
 +++ b/kcm/cache.c
-@@ -102,7 +102,7 @@
+@@ -102,7 +102,7 @@ kcm_ccache_resolve_by_uuid(krb5_context
      for (p = ccache_head; p != NULL; p = p->next) {
  	if ((p->flags & KCM_FLAGS_VALID) == 0)
  	    continue;
@@ -11,7 +11,7 @@
  	}
 --- a/lib/hcrypto/engine.c
 +++ b/lib/hcrypto/engine.c
-@@ -88,7 +88,7 @@
+@@ -88,7 +88,7 @@ ENGINE_finish(ENGINE *engine)
      if(engine->destroy)
  	(*engine->destroy)(engine);
  
@@ -22,7 +22,7 @@
  
 --- a/lib/hcrypto/md2.c
 +++ b/lib/hcrypto/md2.c
-@@ -130,5 +130,5 @@
+@@ -130,5 +130,5 @@ MD2_Final (void *res, struct md2 *m)
      MD2_Update(m, pad, 16);
  
      memcpy(res, m->state, MD2_DIGEST_LENGTH);
@@ -31,7 +31,7 @@
  }
 --- a/lib/hcrypto/test_rand.c
 +++ b/lib/hcrypto/test_rand.c
-@@ -164,7 +164,7 @@
+@@ -164,7 +164,7 @@ main(int argc, char **argv)
  
  	for (bit = 0; bit < 8; bit++) {
  
@@ -42,8 +42,8 @@
  		     bit, bit, res, len, bits[bit]);
 --- a/configure
 +++ b/configure
-@@ -14242,7 +14242,7 @@
- 	 	;;
+@@ -14242,7 +14242,7 @@ case "$host" in
+ 	;;
  *-*-linux* | *-*-linux-gnu)
  	case `uname -r` in
 -	2.*|3.*)
@@ -53,7 +53,8 @@
  		PTHREAD_LIBADD=-pthread
 --- a/lib/asn1/gen.c
 +++ b/lib/asn1/gen.c
-@@ -293,6 +293,6 @@
+@@ -292,7 +292,7 @@ close_generate (void)
+         fclose (templatefile);
      if (logfile)
          fprintf (logfile, "\n");
 -        fclose (logfile);
@@ -63,7 +64,7 @@
  void
 --- a/appl/su/su.c
 +++ b/appl/su/su.c
-@@ -374,7 +374,7 @@
+@@ -374,7 +374,7 @@ main(int argc, char **argv)
      if (su_info == NULL)
  	errx (1, "malloc: out of memory");
  
@@ -72,3 +73,14 @@
      if(pwd == NULL)
  	errx(1, "who are you?");
      login_info = dup_info(pwd);
+--- a/lib/krb5/krbhst.c
++++ b/lib/krb5/krbhst.c
+@@ -325,7 +325,7 @@ krb5_krbhst_format_string(krb5_context c
+ 			  char *hostname, size_t hostlen)
+ {
+     const char *proto = "";
+-    char portstr[7] = "";
++    char portstr[12] = "";
+     if(host->proto == KRB5_KRBHST_TCP)
+ 	proto = "tcp/";
+     else if(host->proto == KRB5_KRBHST_HTTP)

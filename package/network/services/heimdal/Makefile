@@ -17,7 +17,7 @@ PKG_BUILD_DEPENDS:=heimdal/host
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://www.h5l.org/dist/src/
 PKG_MD5SUM:=30b379e3de12f332fbd201131f02ffca
-PKG_FIXUP:=autoreconf
+#PKG_FIXUP:=autoreconf
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
@@ -49,9 +49,9 @@ endef
 
 define Host/Install
 	$(INSTALL_DIR) $(STAGING_DIR)/host/bin
-	$(CP) $(HOST_BUILD_DIR)/lib/com_err/compile_et $(STAGING_DIR)/host/bin
-	$(CP) $(HOST_BUILD_DIR)/lib/asn1/asn1_compile $(STAGING_DIR)/host/bin
-	$(CP) $(HOST_BUILD_DIR)/lib/sl/slc $(STAGING_DIR)/host/bin
+	$(CP) $(HOST_BUILD_DIR)/lib/com_err/compile_et $(STAGING_DIR_HOST)/bin
+	$(CP) $(HOST_BUILD_DIR)/lib/asn1/asn1_compile $(STAGING_DIR_HOST)/bin
+	$(CP) $(HOST_BUILD_DIR)/lib/sl/slc $(STAGING_DIR_HOST)/bin
 endef
 
 CONFIGURE_ARGS += \
@@ -65,15 +65,15 @@ CONFIGURE_ARGS += \
 	--disable-heimdal-documentation \
 	--enable-developer \
 	--with-sqlite3=yes \
-	--with-sqlite3-include=$(STAGING_DIR)/usr/include \
-	--with-sqlite3-lib=$(STAGING_DIR)/usr/lib \
+	--with-sqlite3-include=$(STAGING_DIR)/opt/include \
+	--with-sqlite3-lib=$(STAGING_DIR)/opt/lib \
 	--with-openssl=yes \
-	--with-openssl-include=$(STAGING_DIR)/usr/include \
-	--with-openssl-lib=$(STAGING_DIR)/usr/lib \
+	--with-openssl-include=$(STAGING_DIR)/opt/include \
+	--with-openssl-lib=$(STAGING_DIR)/opt/lib \
 	--without-x \
 	--disable-afs-support \
 	--disable-ndbm-db \
-	--disable-mmap
+	--disable-mmap \
 
 EXTRA_CFLAGS += \
 	-Wno-deprecated-declarations \
@@ -81,7 +81,8 @@ EXTRA_CFLAGS += \
 	-Wno-unused-function \
 	-Wno-maybe-uninitialized \
 	-Wno-return-type \
-	-Wno-enum-compare
+	-Wno-enum-compare \
+	-Wno-format-truncation
 
 define Build/Prepare
 	$(call Build/Prepare/Default)

@@ -278,8 +278,8 @@ define Package/samba47-server/install
 	$(INSTALL_DIR) $(1)/opt/var/run/samba/ncalrpc
 endef
 
+#/opt/etc/config/samba4 lede specific dir
 define Package/samba47-server/conffiles
-#/opt/etc/config/samba4 <-lede specific
 /opt/etc/samba/smb.conf.template
 /opt/etc/samba/smbpasswd
 endef

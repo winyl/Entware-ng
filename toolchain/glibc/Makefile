@@ -27,6 +27,10 @@ define Host/Install
 		  done \
 		done \
 	)
+# use cross-rpcgen instead of native rpcgen as we are CROSS compiling!!!
+	$(CP) $(CUR_BUILD_DIR)/sunrpc/cross-rpcgen $(TOOLCHAIN_DIR)/bin
+	$(MV) -f $(TOOLCHAIN_DIR)/bin/rpcgen $(TOOLCHAIN_DIR)/bin/native-rpcgen
+	$(LN) -sf $(TOOLCHAIN_DIR)/bin/cross-rpcgen $(TOOLCHAIN_DIR)/bin/rpcgen
 endef
 
 $(eval $(call HostBuild))

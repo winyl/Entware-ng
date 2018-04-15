@@ -1,5 +1,5 @@
 # Strip is not recommended for go binaries. It may make binaries unusable
-STRIP:=:
+RSTRIP:="/bin/true"
 
 # Template for GO package 
 define Package/gopackage/Default
@@ -72,6 +72,6 @@ define Build/Compile
 		cd $(PKG_BUILD_DIR); \
 		mkdir -p bin; \
 		cd bin; \
-		GOOS=linux GOARCH=$(GOARCH) $(GOARM) GOPATH=$(PKG_BUILD_DIR) $(GOROOT)/bin/go build -ldflags="-s -w" -x -v $(PKG_GOGET) ; \
+		GOOS=linux GOARCH=$(GOARCH) $(GOARM) $(GOMIPS) GOPATH=$(PKG_BUILD_DIR) $(GOROOT)/bin/go build -ldflags="-s -w" -x -v $(PKG_GOGET) ; \
 	)
 endef

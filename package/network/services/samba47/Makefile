@@ -39,7 +39,7 @@ define Package/samba47-server
   CATEGORY:=Network
   TITLE:=Samba $(PKG_VERSION) SMB/CIFS server
   URL:=http://www.samba.org/
-  DEPENDS:= +zlib +libpthread +libpopt +heimdal-libs
+  DEPENDS:= +zlib +libpthread +libpopt +heimdal-libs +libcap +jansson +libext2fs
 #DEPENDS+= +libreadline +libuuid +libtirpc libtirpc
 endef
 
@@ -195,7 +195,7 @@ define Build/Configure
 			--nonshared-binary=$(PKG_NAME)_multicall \
 			--with-static-modules=${SAMBA4_MODULES_STATIC} \
 			--with-shared-modules=${SAMBA4_MODULES_SHARED} \
-			--bundled-libraries='heimdal,!asn1_compile,!compile_et,!zlib,popt,talloc,pytalloc,pytalloc-util' \
+			--bundled-libraries='heimdal,!asn1_compile,!compile_et,!zlib,popt,talloc,pytalloc,pytalloc-util,tdb' \
 			--without-quotas \
 			--with-syslog \
 			--nopyc \

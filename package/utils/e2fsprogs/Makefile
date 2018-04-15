@@ -46,7 +46,7 @@ define Package/libext2fs
 $(call Package/e2fsprogs/Default)
   SECTION:=libs
   CATEGORY:=Libraries
-  DEPENDS:=+libuuid +libblkid +librt
+  DEPENDS:=+libuuid +libblkid +librt +libcom_err
   TITLE:=ext2/3/4 filesystem library
 endef
 
@@ -106,6 +106,19 @@ define Package/lsattr
 $(call Package/e2fsprogs)
   TITLE:=Ext2 Filesystem lsattr utility
   DEPENDS:= +e2fsprogs
+endef
+
+define Package/libcom_err
+  SECTION:=libs
+  CATEGORY:=Libraries
+  TITLE:=common error description library
+  URL:=http://e2fsprogs.sourceforge.net/
+  DEPENDS:=+libuuid
+endef
+
+define Package/libcom_err/description
+  This package contains libcom_err, the common error description library
+  bundled with e2fsprogs.
 endef
 
 TARGET_CFLAGS += $(FPIC) -ffunction-sections -fdata-sections
@@ -181,13 +194,14 @@ define Package/e2fsprogs/install
 endef
 
 define Package/libcom_err/install
+	$(INSTALL_DIR) $(1)/opt/lib
+	$(CP) $(PKG_INSTALL_DIR)/opt/lib/libcom_err.so* $(1)/opt/lib/
 endef
 
 define Package/libext2fs/install
 	$(INSTALL_DIR) $(1)/opt/lib
 	$(CP) \
 		$(PKG_INSTALL_DIR)/opt/lib/libext2fs.so.* \
-		$(PKG_INSTALL_DIR)/opt/lib/libcom_err.so.* \
 		$(1)/opt/lib/
 endef
 
@@ -246,6 +260,7 @@ endef
 
 $(eval $(call BuildPackage,e2fsprogs))
 $(eval $(call BuildPackage,libext2fs))
+$(eval $(call BuildPackage,libcom_err))
 $(eval $(call BuildPackage,tune2fs))
 $(eval $(call BuildPackage,resize2fs))
 $(eval $(call BuildPackage,badblocks))

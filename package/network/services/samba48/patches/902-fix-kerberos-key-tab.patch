@@ -1,0 +1,16 @@
+--- a/source3/libads/kerberos_keytab.c
++++ b/source3/libads/kerberos_keytab.c
+@@ -614,7 +614,6 @@ done:
+ 	return ret;
+ }
+ 
+-#endif /* HAVE_ADS */
+ 
+ /**********************************************************************
+  List system keytab.
+@@ -716,4 +715,5 @@ out:
+ 	return ret;
+ }
+ 
++#endif /* HAVE_ADS */
+ #endif /* HAVE_KRB5 */

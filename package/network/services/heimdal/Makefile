@@ -104,7 +104,7 @@ endef
 define Package/heimdal-libs
   $(call Package/heimdal/Default)
   TITLE+= (Libraries)
-  DEPENDS:=+libsqlite3 +libreadline +libncurses +libopenssl +libdb47
+  DEPENDS:=+libsqlite3 +libreadline +libncurses +libopenssl +libdb47 +libcom_err
 endef
 
 define Package/heimdal-server

@@ -4,8 +4,7 @@
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
 #
-# Entware comment
-# We will keep this version because arm feed use 3.2 kernel. 
+# Entware specific: We will keep this version because arm feed use 3.2 kernel.
 # We use 3.2 kernels because Synology still use it on arm NASes.
 #
 
@@ -13,7 +12,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=iproute2
 PKG_VERSION:=4.4.0
-PKG_RELEASE:=10
+PKG_RELEASE:=10a
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@KERNEL/linux/utils/net/iproute2
@@ -40,7 +39,6 @@ $(call Package/iproute2/Default)
  TITLE:=Routing control utility (Minimal)
  VARIANT:=tiny
  PROVIDES:=ip
- ALTERNATIVES:=200:/sbin/ip:/sbin/ip-tiny
 endef
 
 define Package/ip-full
@@ -48,7 +46,6 @@ $(call Package/iproute2/Default)
  TITLE:=Routing control utility (Full)
  VARIANT:=full
  PROVIDES:=ip
- ALTERNATIVES:=300:/sbin/ip:/sbin/ip-full
 endef
 
 define Package/tc

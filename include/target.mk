@@ -51,7 +51,7 @@ else
   endif
 endif
 
-ifneq ($(filter 3.18 4.9,$(KERNEL_PATCHVER)),)
+ifneq ($(filter 4.9,$(KERNEL_PATCHVER)),)
   DEFAULT_PACKAGES.router:=$(filter-out kmod-ipt-offload,$(DEFAULT_PACKAGES.router))
 endif
 
@@ -289,7 +289,7 @@ ifeq ($(SUBTARGETS),)
   CUR_SUBTARGET := default
 endif
 
-# Entware specific! Target-Arch-Packages contains the board, not cpu 
+# Entware specific: Target-Arch-Packages contains the board, not cpu
 define BuildTargets/DumpCurrent
   .PHONY: dumpinfo
   dumpinfo : export DESCRIPTION=$$(Target/Description)

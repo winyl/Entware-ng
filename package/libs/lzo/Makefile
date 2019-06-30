@@ -4,12 +4,13 @@
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
 #
+# Entware specific: -DLZO_CFG_NO_UNALIGNED=1 for x86 targets
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=lzo
 PKG_VERSION:=2.10
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://www.oberhumer.com/opensource/lzo/download/
@@ -28,6 +29,7 @@ define Package/liblzo
   CATEGORY:=Libraries
   TITLE:=A real-time data compression library
   URL:=http://www.oberhumer.com/opensource/lzo/
+  ABI_VERSION:=2
 endef
 
 define Package/liblzo/description
@@ -54,7 +56,7 @@ endef
 
 define Package/liblzo/install
 	$(INSTALL_DIR) $(1)/opt/lib
-	$(CP) $(PKG_INSTALL_DIR)/opt/lib/liblzo2.so* $(1)/opt/lib/
+	$(CP) $(PKG_INSTALL_DIR)/opt/lib/liblzo2.so.* $(1)/opt/lib/
 endef
 
 $(eval $(call BuildPackage,liblzo))

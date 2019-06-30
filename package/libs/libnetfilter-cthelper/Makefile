@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libnetfilter_cthelper
 PKG_VERSION:=1.0.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:= \
@@ -30,6 +30,7 @@ define Package/libnetfilter-cthelper
   DEPENDS:=+libmnl
   TITLE:=API to the in-kernel connection tracking helper infrastructure
   URL:=http://www.netfilter.org/projects/libnetfilter_cthelper/
+  ABI_VERSION:=0
 endef
 
 define Package/libnetfilter-cthelper/description
@@ -45,27 +46,27 @@ CONFIGURE_ARGS += \
 	--enable-shared \
 
 define Build/InstallDev
-	$(INSTALL_DIR) $(1)/usr/include/libnetfilter_cthelper
+	$(INSTALL_DIR) $(1)/opt/include/libnetfilter_cthelper
 	$(CP) \
-		$(PKG_INSTALL_DIR)/usr/include/libnetfilter_cthelper/*.h \
-		$(1)/usr/include/libnetfilter_cthelper/
+		$(PKG_INSTALL_DIR)/opt/include/libnetfilter_cthelper/*.h \
+		$(1)/opt/include/libnetfilter_cthelper/
 
-	$(INSTALL_DIR) $(1)/usr/lib
+	$(INSTALL_DIR) $(1)/opt/lib
 	$(CP) \
-		$(PKG_INSTALL_DIR)/usr/lib/libnetfilter_cthelper.{so*,a,la} \
-		$(1)/usr/lib/
+		$(PKG_INSTALL_DIR)/opt/lib/libnetfilter_cthelper.{so*,a,la} \
+		$(1)/opt/lib/
 
-	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
+	$(INSTALL_DIR) $(1)/opt/lib/pkgconfig
 	$(CP) \
-		$(PKG_INSTALL_DIR)/usr/lib/pkgconfig/libnetfilter_cthelper.pc \
-		$(1)/usr/lib/pkgconfig/
+		$(PKG_INSTALL_DIR)/opt/lib/pkgconfig/libnetfilter_cthelper.pc \
+		$(1)/opt/lib/pkgconfig/
 endef
 
 define Package/libnetfilter-cthelper/install
-	$(INSTALL_DIR) $(1)/usr/lib
+	$(INSTALL_DIR) $(1)/opt/lib
 	$(CP) \
-		$(PKG_INSTALL_DIR)/usr/lib/libnetfilter_cthelper.so.* \
-		$(1)/usr/lib/
+		$(PKG_INSTALL_DIR)/opt/lib/libnetfilter_cthelper.so.* \
+		$(1)/opt/lib/
 endef
 
 $(eval $(call BuildPackage,libnetfilter-cthelper))

@@ -8,20 +8,19 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=lldpd
-PKG_VERSION:=1.0.1
-PKG_RELEASE:=2
+PKG_VERSION:=1.0.3
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://media.luffy.cx/files/lldpd
-PKG_HASH:=450b622aac7ae1758f1ef82f3b7b94ec47f2ff33abfb0e6ac82555b9ee55f151
+PKG_HASH:=39fced395168015416bfe78b95414facf066f841f349024433aa20ab54e4c360
 
 PKG_MAINTAINER:=Stijn Tintel <stijn@linux-ipv6.be>
 PKG_LICENSE:=ISC
 
 PKG_FIXUP:=autoreconf
+PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
-
-TARGET_CFLAGS+=--std=c99
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -64,6 +63,10 @@ define Package/lldpd/install
 	$(CP) $(PKG_INSTALL_DIR)/opt/lib/liblldpctl.so* $(1)/opt/lib/
 endef
 
+#define Package/lldpd/conffiles
+#/etc/config/lldpd
+#endef
+
 CONFIGURE_ARGS += \
 	$(if $(CONFIG_LLDPD_WITH_PRIVSEP), \
 	--with-privsep-user=lldp \
@@ -74,6 +77,7 @@ CONFIGURE_ARGS += \
 	--with-embedded-libevent=no \
 	--disable-hardening \
 	--without-xml \
+	--disable-doxygen-doc \
 	--sysconfdir=/opt/etc \
 	--enable-oldies \
 	$(if $(CONFIG_LLDPD_WITH_CDP),,--disable-cdp) \
@@ -84,8 +88,8 @@ CONFIGURE_ARGS += \
 	$(if $(CONFIG_LLDPD_WITH_DOT3),,--disable-dot3) \
 	$(if $(CONFIG_LLDPD_WITH_CUSTOM),,--disable-custom) \
 	$(if $(CONFIG_LLDPD_WITH_SONMP),,--disable-sonmp) \
-	$(if $(CONFIG_LLDPD_WITH_JSON),--with-json=json-c,--with-json=no) \
-	$(if $(CONFIG_LLDPD_WITH_SNMP),--with-snmp,)
-
+	$(if $(CONFIG_LLDPD_WITH_JSON),--enable-json0,) \
+	$(if $(CONFIG_LLDPD_WITH_SNMP),--with-snmp,) \
+	$(if $(CONFIG_USE_GLIBC),,--without-libbsd)
 
 $(eval $(call BuildPackage,lldpd))

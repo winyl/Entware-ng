@@ -4,17 +4,18 @@
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
 #
+# Entware specific:
 # opkg binary segfaults when a real package is replaced by "provided" package.
 # we removed PROVIDES libncurses field in libncursesw and added a real libncurses package that
 # installes symlinks. We've added more symlinks to make binaries from older packages to be compatible with
 # the new libncurses(w) package.
-# Our patch set is different from LEDE for historical reason, it will be merged after next uptade in LEDE
+# Our patch set is different from LEDE for historical reason, it will be merged after next sync
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ncurses
 PKG_VERSION:=6.1
-PKG_RELEASE:=1
+PKG_RELEASE:=4
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
@@ -45,6 +46,7 @@ define Package/libncursesw
   TITLE:=Terminal handling library (Unicode)
   URL:=http://www.gnu.org/software/ncurses/
   DEPENDS:= +terminfo
+  ABI_VERSION:=6
 endef
 
 define Package/libncurses
@@ -53,6 +55,7 @@ define Package/libncurses
   TITLE:=Terminal handling library
   URL:=http://www.gnu.org/software/ncurses/
   DEPENDS:= +libncursesw
+  ABI_VERSION:=6
 endef
 
 define Package/libncurses-dev
@@ -97,6 +100,8 @@ CONFIGURE_ARGS += \
 	--with-build-cppflags=-D_GNU_SOURCE \
 	--disable-stripping \
 	CPPFLAGS="-P"
+
+HOST_CFLAGS += $(HOST_FPIC)
 
 HOST_CONFIGURE_ARGS += \
 	--without-cxx \
@@ -169,6 +174,8 @@ define Package/libncursesw/install
 endef
 
 define Package/libncurses-dev/install
+	$(INSTALL_DIR) $(1)/opt/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/* $(1)/opt/bin/
 	$(INSTALL_DIR) $(1)/opt/include
 	$(CP) $(PKG_INSTALL_DIR)/opt/include/*.h $(1)/opt/include/
 	$(INSTALL_DIR) $(1)/opt/lib
@@ -204,10 +211,6 @@ endef
 define Host/Compile
 	$(MAKE) -C $(HOST_BUILD_DIR) libs
 	$(MAKE) -C $(HOST_BUILD_DIR)/progs tic
-endef
-
-define Host/Install
-	$(INSTALL_BIN) $(HOST_BUILD_DIR)/progs/tic $(STAGING_DIR_HOST)/bin/tic
 endef
 
 $(eval $(call HostBuild))

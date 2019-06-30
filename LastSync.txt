@@ -1,15 +1,6 @@
-commit 8ad45992acab9a2dead144d5b387fbe132ce59c1
-Author: Marek Lindner <mareklindner@neomailbox.ch>
-Date:   Sun Dec 2 22:02:04 2018 +0800
+commit 8eb7cf0cd7ada5b64ebb23f41d0559204fb50dad
+Author: Koen Vandeputte <koen.vandeputte@ncentric.com>
+Date:   Mon May 20 10:51:18 2019 +0200
 
-    ipq40xx: fix openmesh sysupgrade with tar content out of order
+    kernel: bump 4.19 to 4.19.44
     
-    The tar extraction depends on the order in which the files
-    are added to the tar file. Since the order is not guaranteed
-    and depends on the host system, the combined mtd write fails
-    with sysupgrade images built on some systems.
-    Fix by changing to tar file order independent mtd write.
-    
-    Fixes: 86e18f6706e1 ("ipq806x: add support for OpenMesh A42")
-    Signed-off-by: Marek Lindner <mareklindner@neomailbox.ch>
-    Signed-off-by: Sven Eckelmann <sven@narfation.org>

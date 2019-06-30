@@ -4,18 +4,19 @@
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
 #
+# Entware specific postinst/prerm
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=busybox
-PKG_VERSION:=1.29.2
-PKG_RELEASE:=1
+PKG_VERSION:=1.30.1
+PKG_RELEASE:=2
 PKG_FLAGS:=essential
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://www.busybox.net/downloads \
 		http://sources.buildroot.net
-PKG_HASH:=67d2fa6e147a45875fe972de62d907ef866fe784c495c363bf34756c444a5d61
+PKG_HASH:=3d1d04a4dbd34048f4794815a5c48ebb9eb53c5277e09ffffc060323b95dfbdc
 
 PKG_BUILD_DEPENDS:=BUSYBOX_CONFIG_PAM:libpam
 PKG_BUILD_PARALLEL:=1
@@ -56,6 +57,12 @@ define Package/busybox/config
 	source "$(SOURCE)/Config.in"
 endef
 
+ifdef CONFIG_BUSYBOX_CONFIG_FEATURE_SYSLOG
+define Package/busybox/conffiles
+/opt/etc/syslog.conf
+endef
+endif
+
 # don't create a version string containing the actual timestamp
 export KCONFIG_NOTIMESTAMP=1
 
@@ -63,9 +70,6 @@ export KCONFIG_NOTIMESTAMP=1
 LDLIBS:=m crypt
 
 LDLIBS += $(call BUSYBOX_IF_ENABLED,PAM,pam pam_misc pthread)
-ifdef CONFIG_BUSYBOX_USE_LIBRPC
-  LDLIBS += rpc
-endif
 ifeq ($(CONFIG_USE_GLIBC),y)
   LDLIBS += $(call BUSYBOX_IF_ENABLED,NSLOOKUP_OPENWRT,resolv)
 endif
@@ -108,9 +112,9 @@ endef
 
 # The postinst & prerm scripts will work only when busybox has readlink applet.
 # We cannot use readlink directly, it is not yet installed and use 'busybox readlink' instead.
-# We convert /opt/bin/busybox to canonical form because /opt is a simpink in some Entware installs
+# We convert /opt/bin/busybox to canonical form because /opt is a symlink in some Entware installs
 # We remove all symlinks to /opt/bin/busybox in /opt/bin and /opt/sbin before installation and removal.
-# It alows to handle applets list change and busybox reinstall in a correct way.
+# It allows to handle applets list change and busybox reinstall in a correct way.
 # /opt/share/busybox_applets.lst is not needed any more
 
 define Package/busybox/postinst
